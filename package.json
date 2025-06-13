@@ -1,0 +1,42 @@
+{
+  "name": "mcp-server-hc3",
+  "version": "1.0.0",
+  "description": "An unofficial Model Context Protocol (MCP) server for integrating with the Fibaro HC3 home automation system.",
+  "main": "dist/index.js",
+  "type": "module",
+  "bin": {
+    "mcp-server-hc3": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "node dist/index.js",
+    "dev": "npm run build && npx @modelcontextprotocol/inspector node dist/index.js",
+    "lint": "eslint ./src --ext .ts",
+    "lint:fix": "eslint ./src --ext .ts --fix"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.2",
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "winston": "^3.17.0",
+    "zod": "^3.25.64"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "^0.14.0",
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.34.0",
+    "@typescript-eslint/parser": "^8.34.0",
+    "eslint": "^9.28.0",
+    "globals": "^16.2.0",
+    "typescript": "^5.8.3"
+  },
+  "homepage": "https://github.com/coding-sailor/mcp-server-hc3",
+  "author": {
+    "name": "coding-sailor",
+    "url": "https://github.com/coding-sailor"
+  },
+  "license": "MIT"
+}
