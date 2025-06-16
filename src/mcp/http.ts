@@ -4,6 +4,7 @@ import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import type { HttpTransportConfig } from './types.js';
 import { getLogger } from '../logger.js';
+import { auth } from './auth.js';
 
 /**
  * Set up HTTP transport for the MCP server using Express and StreamableHTTPServerTransport
@@ -19,6 +20,7 @@ export async function setupHttpTransport(
   const app = express.default();
 
   app.use(express.default.json());
+  app.use(auth);
 
   // Store transports by session ID
   const transports: { [sessionId: string]: StreamableHTTPServerTransport } = {};

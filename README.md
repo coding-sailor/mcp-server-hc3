@@ -76,6 +76,7 @@ LOG_LEVEL=info                      # Logging level (default: info)
 MCP_TRANSPORT_TYPE=stdio            # Transport type: 'stdio' or 'http' (default: stdio)
 MCP_HTTP_HOST=localhost             # HTTP server host (default: localhost)
 MCP_HTTP_PORT=3000                  # HTTP server port (default: 3000)
+MCP_HTTP_API_KEY=your-api-key-here  # API key for HTTP authentication (used only for 'http' transport type)
 ```
 
 **⚠️ Important:** Never commit your `.env` file to version control!
@@ -122,6 +123,7 @@ For clients that support HTTP transport, configure the server with HTTP transpor
 MCP_TRANSPORT_TYPE=http
 MCP_HTTP_HOST=localhost
 MCP_HTTP_PORT=3000
+MCP_HTTP_API_KEY=your-api-key-here
 
 # Start server
 npm start
@@ -135,6 +137,8 @@ The server will be available at:
   - `GET /mcp` - Server-to-client notifications (SSE)
   - `DELETE /mcp` - Session termination
 
+**🔐 Authentication**: When using HTTP transport, it's highly recommended to include the `x-api-key` header in your requests. The value should match the `MCP_HTTP_API_KEY` from your configuration.
+
 ## 🐳 Docker Deployment
 
 For easy deployment and containerized environments, you can run the MCP server using Docker.
@@ -147,9 +151,10 @@ Example `.env` configuration for Docker:
 
 ```bash
 # MCP Server Configuration
+MCP_TRANSPORT_TYPE=http
 MCP_HTTP_HOST=0.0.0.0
 MCP_HTTP_PORT=3000
-MCP_TRANSPORT_TYPE=http
+MCP_HTTP_API_KEY=your-api-key-here
 
 # Fibaro HC3 Configuration (Required)
 HC3_HOST=192.168.1.100
@@ -180,11 +185,13 @@ Configure Claude Desktop to connect to the Docker container:
   "mcpServers": {
     "mcp-server-hc3": {
       "command": "curl",
-      "args": ["-X", "POST", "-H", "Content-Type: application/json", "http://localhost:3000/mcp"]
+      "args": ["-X", "POST", "-H", "Content-Type: application/json", "-H", "x-api-key: your-api-key-here", "http://localhost:3000/mcp"]
     }
   }
 }
 ```
+
+**🔐 Authentication**: Include the `x-api-key` header with the value matching your `MCP_HTTP_API_KEY` configuration for secure access.
 
 #### **Custom MCP Client Integration**
 
@@ -192,7 +199,9 @@ Connect to the Docker container via HTTP:
 
 - **Endpoint**: `http://localhost:3000/mcp`
 - **Transport**: HTTP-based MCP protocol
-- **Headers**: `Content-Type: application/json`
+- **Headers**: 
+  - `Content-Type: application/json`
+  - `x-api-key: your-api-key-here` (highly recommended, should match `MCP_HTTP_API_KEY`)
 
 ## 🛠️ Development
 
@@ -214,6 +223,7 @@ Connect to the Docker container via HTTP:
 | `MCP_TRANSPORT_TYPE` | ❌       | `stdio`     | Transport type: 'stdio' or 'http' |
 | `MCP_HTTP_HOST`      | ❌       | `localhost` | HTTP server bind address          |
 | `MCP_HTTP_PORT`      | ❌       | `3000`      | HTTP server port                  |
+| `MCP_HTTP_API_KEY`   | ❌       | -           | API key for HTTP authentication   |
 
 ### **Available Scripts**
 

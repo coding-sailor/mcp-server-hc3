@@ -4,6 +4,7 @@ import { createConfigLogger } from '../logger.js';
 const ConfigSchema = z.object({
   MCP_HTTP_HOST: z.string().default('localhost'),
   MCP_HTTP_PORT: z.coerce.number().int().positive().default(3000),
+  MCP_HTTP_API_KEY: z.string().optional(),
   MCP_TRANSPORT_TYPE: z.enum(['stdio', 'http']).default('stdio'),
 
   HC3_HOST: z.string().min(1, 'HC3_HOST is required'),
